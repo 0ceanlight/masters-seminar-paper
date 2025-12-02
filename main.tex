@@ -1,0 +1,96 @@
+% !TeX spellcheck = en_US
+\documentclass[AIRstudentthesis%      style
+              ,optCharter%            font
+              ,optBlackHeadings%      black sections to reduce number of colored pages
+              ,optBlackRefs%          black references to reduce number of colored pages
+              %,optCMYK%              color model
+              ,optBiber%              bibliography tool
+              ,optBibstyleNumeric% bibliography style
+              ,optCenterEquations%    alignment of equations
+              ,optEnglish%            language
+              %,optTikzExternalize%   compiles faster for large tikz images
+              ]{AIRlatex}
+%
+% Load additional LaTeX packages - remove what you do not need
+\usepackage{algorithm}%
+\usepackage{algorithmicx}%
+\usepackage{booktabs}%
+\usepackage{tabularx}% for tables with width relative to text width
+\usepackage[table]{xcolor}%
+\usepackage{listings}% code listings
+\usepackage{inconsolata}% nicer monospace font for code listings
+\renewcommand{\arraystretch}{1.3}% increase row height in tables
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{url} % So special chars in URLs do not cause errors
+\usepackage{todonotes}
+\usepackage[acronym]{glossaries}
+%\makeglossaries
+\newacronym{slam}{SLAM}{Simultaneous Localization and Mapping}
+\newacronym{v2x}{V2X}{Vehicle-to-Everything}
+\newacronym{gnss}{GNSS}{Global Navigation Satellite System}
+\newacronym{gps}{GPS}{Global Positioning System}
+\newacronym{lidar}{LiDAR}{Light Detection and Ranging}
+\newacronym{icp}{ICP}{Iterative Closest Point}
+\newacronym{fpfh}{FPFH}{Fast Point Feature Histograms}
+\newacronym{v2v}{V2V}{Vehicle-to-Vehicle}
+\newacronym{v2i}{V2I}{Vehicle-to-Infrastructure}
+\newacronym{v2n}{V2N}{Vehicle-to-Network}
+\newacronym{v2p}{V2P}{Vehicle-to-Pedestrian}
+\newacronym{fov}{FOV}{Field of View}
+\newacronym{hd}{HD}{High Definition}
+\newacronym{ransac}{RANSAC}{Random Sample Consensus}
+\newacronym{gtsam}{GTSAM}{Georgia Tech Smoothing and Mapping}
+\newacronym{carla}{CARLA}{Car Learning to Act}
+\newacronym{2d}{2D}{Two-Dimensional}
+\newacronym{3d}{3D}{Three-Dimensional}
+\newacronym{rmse}{RMSE}{Root Mean Square Error}
+\newacronym{dof}{DoF}{Degrees of Freedom}
+\newacronym{sdf}{SDF}{Signed Distance Function}
+% 
+% Set paths
+\graphicspath{{figures/}}%
+\addbibresource{source/literature.bib}%
+%
+% Define additional commands
+\newcommand{\code}[1]{\texttt{#1}}%
+\newcommand{\degree}[0]{^\circ}%
+%
+\begin{document}%
+% Titlepage
+% ---------
+\frontmatter%
+% Info: separate multiple supervisors by \newline
+\AIRstudentthesisTitlePageCustomBachelorsThesis{Generative Modelle für die Flugregelung}{Generative Models for Flight Control}{\AIRlangFieldOfStudyInformatics}{Francesca Frederick}{}{TODO}{TODO}{\AIRutilsDate{1}{1}{2026}}%
+%
+% Abstract
+% --------
+\include{source/abstract}%
+%
+% Content
+% -------
+\AIRstudentthesisPrintTableOfContents%
+\mainmatter%
+\include{source/chapter01}%
+\include{source/chapter02}%
+\include{source/chapter03}%
+\include{source/chapter04}%
+\include{source/chapter05}%
+%
+% Appendix
+% --------
+\appendix%
+\include{source/appendix01}%
+%
+% References
+% ----------
+{%
+    %\sloppy% "Word"-like typesetting in order to improve breaking lines with long URLs/DOIs
+    % \nocite{*}
+    \printbibliography[heading=bibintoc]%
+}%
+%
+%
+\end{document}%
+%
+%
