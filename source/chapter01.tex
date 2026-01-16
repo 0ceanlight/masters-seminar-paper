@@ -1,11 +1,31 @@
 % !TeX spellcheck = en_US
-\chapter{Introduction}\label{ch:introduction}
+\chapter{Introduction and Related Work}\label{ch:introduction}
 
-\section{Motivation}
-Hello testytest \cite{vaswaniAttentionAllYou2023}
+\section{Motivation: The Critical Phase of Flight}
+The automation of flight control has long been a cornerstone of aviation safety and efficiency. While commercial autopilots excel at high-altitude cruise and stabilization using classical control theory, the "edge cases" of flight—specifically autonomous takeoff, landing, and upset recovery—remain unsolved challenges for general aviation and unpowered aircraft (gliders). 
+The stakes are high: statistics consistently show that the vast majority of aviation accidents occur during the approach and landing phases, often attributed to human error in energy management or crosswind correction.
 
-\section{Problem Statement}
-\todo{Describe the problem statement.}
+For unpowered aircraft, this challenge is magnified. A glider pilot executing a landing pattern has no "go-around" capability; the energy state of the vehicle is finite and decaying. This turns the landing maneuver into a high-stakes trajectory optimization problem where the controller must perceive complex atmospheric disturbances (thermals, wind shear) and execute a precise, energy-efficient path to the ground. Current certification standards rely on deterministic, rule-based systems that lack the flexibility to handle these stochastic environmental factors effectively.
 
-\section{Thesis Structure}
-\todo{Outline the thesis structure.}
+\section{The Limits of Classical Control}
+Traditionally, flight control relies on Proportional-Integral-Derivative (PID) controllers or Linear-Quadratic Regulators (LQR). These methods are mathematically provable and stable within a specific flight envelope. However, they suffer from two critical limitations:
+\begin{enumerate}
+    \item \textbf{Linearization:} The linear control algorithms fail to capture the nonlinear nature of dynamic wind conditions and complex aircraft systems \cite{zhangAirPilotInterpretablePPObased2024}. Classical PID controllers have weak dynamic performance and discouraging function on nonlinear, time-varying, and uncertain systems \cite{beygiDesignFuzzySelftuning}.
+    \item \textbf{Perception Gap:} Classical controllers struggle to integrate high-dimensional sensory data. They act on estimated state vectors (altitude, airspeed) but cannot natively "see" the runway or anticipate terrain features from vision sensors without complex, hand-engineered pipelines.
+\end{enumerate}
+
+\section{The Rise of Reinforcement Learning: Agents that Fly}
+To address these non-linearities, researchers have turned to Deep Reinforcement Learning (RL). In this paradigm, an agent learns a policy $\pi(a|s)$ by maximizing a reward signal through trial and error.
+Significant milestones have been achieved using \textit{Model-Free} RL methods. Notably, \cite{kaufmannChampionlevelDroneRacing2023} demonstrated an autonomous racing drone ("Swift") capable of beating human world champions using Proximal Policy Optimization (PPO). similarly, \cite{novatiControlledGlidingPerching2019} utilized RL to teach gliders to navigate thermal updrafts autonomously, mimicking the behavior of soaring birds.
+
+However, Model-Free RL faces a "Sample Efficiency" wall. To learn a robust landing policy, an agent might need to experience millions of failed landings (crashes) in simulation. Transferring these policies to reality (Sim2Real) is notoriously difficult due to the "Reality Gap"—slight discrepancies between the physics engine and real-world aerodynamics can cause a trained agent to fail catastrophically \cite{openaiSolvingRubiksCube2019}. Current solutions, such as Domain Randomization (training on thousands of slightly different physical models), are computationally expensive and yield brittle "black box" policies that lack explainability.
+
+\section{Generative World Models: Planning in Imagination}
+This impasse suggests a need for a paradigm shift: from \textit{memorizing} reactions (Model-Free) to \textit{understanding} dynamics (Model-Based). This is the domain of \textbf{World Models}, which can be viewed as \textbf{Generative Models for Decision Making}.
+Instead of mapping pixels directly to actions, a World Model learns a compressed, latent representation of the environment dynamics. It acts as a "simulator inside the brain," allowing the agent to generate imaginary future trajectories ($z_{t+1}, z_{t+2}, \dots$) and plan actions by evaluating their predicted outcomes before executing them in reality \cite{haWorldModels2018}.
+
+Recent advancements, such as the \textit{Dreamer} architecture \cite{hafnerDreamControlLearning2020}, have shown that agents planning in a learned latent space can achieve state-of-the-art performance with a fraction of the data required by model-free methods. Yet, these explicit generative models often expend vast computational resources reconstructing visual details (decoding pixels) that are irrelevant to the control task.
+
+\section{Towards Robustness: The Promise of TD-MPC2}
+This brings us to the focus of this work: \textbf{TD-MPC2} \cite{hansenTDMPC2ScalableRobust2024}. By combining the planning capabilities of Model Predictive Control (MPC) with a scalable, implicit world model (which predicts values and latent states rather than pixels), TD-MPC2 promises to solve the fragility and scalability issues of previous methods.
+In the context of autonomous flight, this approach offers a novel pathway: a controller that can "imagine" the aerodynamic consequences of a control input in a turbulent environment without needing to crash a real aircraft to learn. This work investigates how the specific architectural innovations of TD-MPC2—namely its local trajectory optimization and multitask robustness—can address the unique challenges of autonomous glider landing, potentially bridging the gap between simulation and the reality of flight.
