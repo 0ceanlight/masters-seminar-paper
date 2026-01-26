@@ -1,8 +1,12 @@
 % !TeX spellcheck = en_US
 \chapter{Related Work}\label{ch:related-work}
 
-\section{Topic 1}
-\todo{Discuss related work on topic 1.}
+\section{Generative LLMs for Trajectory Planning}
 
-\section{Topic 2}
-\todo{Discuss related work on topic 2.}
+Generative Large Language Models (LLMs) have recently been explored for their potential in trajectory planning tasks. One notable example is the work by Serpiva et al. \cite{serpivaFlightDiffusionRevolutionisingAutonomous2025}, which uses a diffusion model to generate realistic FPV video sequences for training autonomous drones. In particular, they leverage a multi-modal LLM to analyzethe visual scene (identifying objects, obstacles, and
+landmarks) and synthesizes it with the task goal to then generate a step-by-step textual
+description of the optimal flight path.
+
+While this is a unique use of the strong generative capabilities of LLMs, it is worth remembering that "a picture is worth a thousand words." In high-stakes control tasks like autonomous flight, the fidelity of the generated trajectory is paramount. Small deviations from the optimal path can lead to catastrophic failures. Therefore, while LLMs can provide valuable high-level guidance, they may lack the precision required for low-level control.
+
+In addition, unlike indoor drone-flights, real flight scenarios do not have the luxury of easily-trackable close up visual features. Extremely high distances, weather conditions, lighting variations, and sensor noise can all degrade the quality of visual inputs, making it challenging for LLMs to generate reliable trajectories based solely on visual data.
